@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chat Room</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<textarea class="chatLog" cols="100" rows="20"></textarea><br>
+	<input class = "message" type="text" name="message">
+	<input class = "submit" type="submit" value="submit">
+</body>
+<script type="text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var roomName = {{room_name_json}};
+			var chatSocket = new WebSocket('ws://'+window.location.host+'/ws/chat/'+roomName+'/');
+			chatSocket.onmessage = function(e){
+				var data = JSON.parse(e.data);
+				var message = data['message'];
+				$("textarea.chatLog").append(message+"\n");
+			};
+			chatSocket.onclose = function(){
+				console.log('connection closed');
+			};
+			$("input.submit").click(function(e){
+				var message = $("input.message").val();
+				chatSocket.send(JSON.stringify({
+					'message':message
+				}));
+				$("input.message").val('');
+			});
+		});
+	</script>
+</html>

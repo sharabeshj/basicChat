@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Index</title>
+	<meta charset="utf-8">
+</head>
+<body>
+{% block content %}
+	<h3>Choose your room</h3>
+	<input type="text" class="roomName" size="50">
+	<input type="submit" class="submit" value="submit">
+{% endblock %}
+</body>
+<script type="text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+{% block javascript %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("input.submit").click(function(){
+			var roomName = $("input.roomName").val();
+			window.location.pathname = 'chat/'+roomName;
+		});
+	});
+</script>
+{% endblock %}
+</html>
